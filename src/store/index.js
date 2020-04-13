@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 Vue.use(Vuex);
 
-// http request support 
+// http request support (Product List , Category List)
 import Axios from "axios";
 const baseUrl = "http://localhost:3500";
 const productsUrl = `${baseUrl}/products`;
@@ -25,11 +25,11 @@ export default new Vuex.Store({
         productsTotal: 0,
         currentPage: 1,
         pageSize: 4,
-        currentCategory: "All"
+        currentCategory: "전체"
     },
     getters: {
         productsFilteredByCategory: state => state.products
-            .filter(p => state.currentCategory == "All"
+            .filter(p => state.currentCategory == "전체"
                 || p.category == state.currentCategory),
         processedProducts: (state, getters) => {
             let index = (state.currentPage -1) * state.pageSize;
@@ -40,7 +40,7 @@ export default new Vuex.Store({
             Math.ceil(getters.productsFilteredByCategory.length / state.pageSize),
         // categories: state => ["All",
         //     ...new Set(state.products.map(p => p.category).sort())]
-        categories: state => ["All", ...state.categoriesData]
+        categories: state => ["전체", ...state.categoriesData]
     },
     mutations: {
         setCurrentPage(state, page) {

@@ -11,8 +11,10 @@ import "font-awesome/css/font-awesome.min.css"
 
 // 테스트 데이터 가져오기
 import store from "./store"
+import router from "./router"
 
 new Vue({
   render: h => h(App),
-  store
+  store,
+  router
 }).$mount('#app')
