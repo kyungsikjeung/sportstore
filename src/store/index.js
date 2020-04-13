@@ -1,34 +1,35 @@
 import Vue from "vue";
 import Vuex from "vuex";
 Vue.use(Vuex);
-
-
-// 테스트 데이터 리스트 삽입
 const testData = [];
-
-for(let i=1; i<=100;i++){
-    testData.push({id:i,name:`product #${i}`,category:`category${i%3}`,description:`this is Product #${i}`,price:i*50})
+for (let i = 1; i <= 10; i++) {
+    testData.push({
+        id: i, name: `Product #${i}`, category: `Category ${i % 3}`,
+        description: `This is Product #${i}`, price: i * 50
+    })
 }
-
-// Vuex Store 페이징 처리 예제
 export default new Vuex.Store({
     strict: true,
     state: {
-        // 스테이트 - 현상태 표시(상품 리스트 , 상품의 수 , 현재 페이지, 페이지 사이즈)
         products: testData,
-        productTotal: testData.length,
-        currentPage : 1,
-        pageSize : 4
+        productsTotal: testData.length,
+        currentPage: 1,
+        pageSize: 4,
+        currentCategory: "All"
     },
-    getters:{
-        // getters - 필터된 데이터 가지고옴
-        // processedProducts - 현재 페이지의 제품들 가지고옴
-        processedProducts : state=>{
-            let index = (state.currentPage - 1)* state.pageSize;
-            return state.products.slice(index,index+state.pageSize);
+    getters: {
+        productsFilteredByCategory: state => state.products
+            .filter(p => state.currentCategory == "All"
+                || p.category == state.currentCategory),
+        processedProducts: (state, getters) => {
+            let index = (state.currentPage -1) * state.pageSize;
+            return getters.productsFilteredByCategory
+                .slice(index, index + state.pageSize);
         },
-        // 전체 페이지수
-        pageCount: state => Math.ceil(state.productTotal/state.pageSize)
+        pageCount: (state, getters) =>
+            Math.ceil(getters.productsFilteredByCategory.length / state.pageSize),
+        categories: state => ["All",
+            ...new Set(state.products.map(p => p.category).sort())]
     },
     mutations: {
         setCurrentPage(state, page) {
@@ -41,7 +42,6 @@ export default new Vuex.Store({
         setCurrentCategory(state, category) {
             state.currentCategory = category;
             state.currentPage = 1;
-        },
+        }
     }
 })
-
