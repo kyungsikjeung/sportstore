@@ -2,23 +2,27 @@ import Vue from "vue";
 import Vuex from "vuex";
 Vue.use(Vuex);
 
+
+// 테스트 데이터 리스트 삽입
 const testData = [];
 
-for(let i=1; i<=10;i++){
+for(let i=1; i<=100;i++){
     testData.push({id:i,name:`product #${i}`,category:`category${i%3}`,description:`this is Product #${i}`,price:i*50})
 }
 
+// Vuex Store 페이징 처리 예제
 export default new Vuex.Store({
     strict: true,
     state: {
+        // 스테이트 - 현상태 표시(상품 리스트 , 상품의 수 , 현재 페이지, 페이지 사이즈)
         products: testData,
-        // 현재 번호 , 페이지사이즈, 
         productTotal: testData.length,
         currentPage : 1,
         pageSize : 4
     },
     getters:{
-        // 데이터 한번에 가지고 옴.
+        // getters - 필터된 데이터 가지고옴
+        // processedProducts - 현재 페이지의 제품들 가지고옴
         processedProducts : state=>{
             let index = (state.currentPage - 1)* state.pageSize;
             return state.products.slice(index,index+state.pageSize);
