@@ -1,13 +1,22 @@
 <template>
-  <div class="text-right">
-    <div class="btn-group mx-2">
-      <button
-        v-for="i in pageNumbers"
-        v-bind:key="i"
-        class="btn btn-secpmdary"
-        v-bind:class="{ 'btn-primary': i == currentPage }"
-        v-on:click="setCurrentPage(i)"
-      >{{ i }}</button>
+  <div class="row mt-2">
+    <div class="col-2 form-group">
+      <select class="form-control" v-on:change="changePageSize">
+        <option value="4">페이지당4건</option>
+        <option value="8">페이지당8건</option>
+        <option value="12">페이지당12건</option>
+      </select>
+    </div>
+    <div class="text-right col">
+      <div class="btn-group mx-2">
+        <button
+          v-for="i in pageNumbers"
+          v-bind:key="i"
+          class="btn btn-secpmdary"
+          v-bind:class="{ 'btn-primary': i == currentPage }"
+          v-on:click="setCurrentPage(i)"
+        >{{ i }}</button>
+      </div>
     </div>
   </div>
 </template>
@@ -22,7 +31,10 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["setCurrentPage"])
+    ...mapMutations(["setCurrentPage", "setPageSize"]),
+    changePageSize($event) {
+      this.setPageSize(Number($event.target.value));
+    }
   }
 };
 </script>
