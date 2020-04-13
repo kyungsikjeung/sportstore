@@ -29,9 +29,12 @@ npm install --save-dev faker@4.1.0
 3. 컴포넌트  
 Store.Vue (메인화면 ex-> index.html)
 ProductList.vue 상품 리스트항목,
-pageControls.vue -
+pageControls.vue - 리스트 페이징 처리
+ShoppingCartLine.vue -  사용자가 담은 아이템 목록
 
-
+src>store>index.js (리스트 VueStore 구현)
+src>router>index.js (라우터 구현)
+cart.js 모듈 구현
 
 4. 게시판 기능
 - 페이지당 (4,10,20) 건 에 대한 필터 추가.
@@ -46,6 +49,27 @@ pageControls.vue -
 - src > router>index.js 에서 vue,vue-router import 후 Vue.use 후 export default new xxx({})
 - main.js 에 Rendering 을 해줘야함. ex) new Vue(render:h=>h(app),router)
 -App.vue 에 <router-view> 추가 , 기존의 Store.vue 제거.
+
+7.카트(src>store>cart.js)
+- namespaced: true 추가 (모듈화)
+- 기능 : 추가 , 삭제 , 변경 (아이템항목, 혹은 수량)
+- 총 아이템 수 , 총 가격 
+
+8. ProductList에 담기 버튼 추가
+-(index.js 리스트 구현에 모듈 추가),
+- 모듈에 등록된 addProduct를 vuex mutations로 사용..
+ ...mapMutations({ addProduct: "cart/addProduct" }),
+-라우터 URL 변경
+
+9. 사용자가 담은 아이템 목록 (Shopping)
+PROP 으로 데이터로 받아 처리 
+데이터 변경은 이벤트 ("quantity", "remove") emit
+
+
+
+
+
+
 
 
 

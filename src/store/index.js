@@ -8,6 +8,11 @@ const baseUrl = "http://localhost:3500";
 const productsUrl = `${baseUrl}/products`;
 const categoriesUrl = `${baseUrl}/categories`
 
+import CartModule from "./cart";
+
+
+
+
 // const testData = [];
 // for (let i = 1; i <= 20; i++) {
 //     testData.push({
@@ -17,6 +22,7 @@ const categoriesUrl = `${baseUrl}/categories`
 // }
 export default new Vuex.Store({
     strict: true,
+    modules:{cart:CartModule},
     state: {
         categoriesData: [],
         //products: testData,

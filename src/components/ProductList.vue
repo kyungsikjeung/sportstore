@@ -5,14 +5,20 @@
         {{p.name}}
         <span class="badge badge-pill badge-primary float-right">{{ p.price | currency }}</span>
       </h4>
-      <div class="card-text bg-white p-1">{{ p.description }}</div>
+      <div class="card-text bg-white p-1">
+        {{ p.description }}
+        <button
+          class="btn btn-success btn-sm float-right"
+          v-on:click="handleProductAdd(p)"
+        >Add To Cart</button>
+      </div>
     </div>
     <page-controls />
   </div>
 </template>
-
+ 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 import PageControls from "./PageControls";
 export default {
   components: { PageControls },
@@ -25,6 +31,14 @@ export default {
         style: "currency",
         currency: "USD"
       }).format(value);
+    }
+  },
+  methods: {
+    // source>index.js 에서  modules:{cart:CartModule} 등록하고 nameSpaced:true 로 설정
+    ...mapMutations({ addProduct: "cart/addProduct" }),
+    handleProductAdd(product) {
+      this.addProduct(product);
+      this.$router.push("/cart");
     }
   }
 };
